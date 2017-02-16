@@ -20,6 +20,11 @@ var db = mongoose.connection;
 //mongo error
 db.on('error',console.error.bind(console,'connection error:'));
 
+//make userID available in templates
+app.use(function(req,res,next){
+  res.locals.currentUser = req.session.userId;
+  next();
+});
 
 // parse incoming requests
 app.use(bodyParser.json());
