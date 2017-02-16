@@ -3,7 +3,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 
+//mongodb connection
+mongoose.connect("mongodb://localhost:4000/bookworm");
+var db = mongoose.connection;
 
+//mongo error
+db.on('error',console.error.bind(console,'connection error:'));
 
 // parse incoming requests
 app.use(bodyParser.json());
@@ -38,14 +43,9 @@ app.use(function(err, req, res, next) {
 });
 
 // listen on port 3000
-app.listen(3000, function () {
-  console.log('Express app listening on port 3000');
+app.listen(4000, function () {
+  console.log('Express app listening on port 4000');
 });
 
-//mongodb connection
-mongoose.connect("mongodb://localhost:3000/bookworm");
-var db = mongoose.connection;
 
-//mongo error
-db.on('error',console.error.bind(console,'connection error:'));
 
