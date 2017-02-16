@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+
+
+//GET /login
+router.get('/login',function(req,res,next){
+	return res.render('login',{title: 'Log In'});
+});
+
+//POST /login
+router.post('/login', function(req,res,next){
+	res.send('Logged In');
+})
+
 //GET /register
 router.get('/register',function(req,res,next){
 	return res.render('register',{title: 'Sign Up'});
@@ -40,7 +52,7 @@ router.post('/register',function(req,res,next){
           return res.redirect('/profile');
         }
       });
-		
+
 	} else {
 		var err = new Error('All fields required');
 		err.status = 400;
