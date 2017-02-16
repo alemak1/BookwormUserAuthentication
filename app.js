@@ -3,14 +3,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 
-//use sessions for tracking logins
-app.use(session({
-	secret: 'treehouse loves you',
-	resave: true,
-	saveUninitialized: false
-}));
 
 mongoose.connect("mongodb://localhost:27017/bookworm");
 
@@ -19,6 +14,16 @@ var db = mongoose.connection;
 
 //mongo error
 db.on('error',console.error.bind(console,'connection error:'));
+
+//use sessions for tracking logins
+app.use(session({
+  secret: 'treehouse loves you',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
 
 //make userID available in templates
 app.use(function(req,res,next){
